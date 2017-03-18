@@ -29,3 +29,7 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+#Icons
+RC_ICONS = logo.ico
+ICON = logo.icns
