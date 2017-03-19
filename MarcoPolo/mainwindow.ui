@@ -454,7 +454,6 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
    <addaction name="menuTag"/>
    <addaction name="menuAide"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionFile">
    <property name="text">
     <string>File</string>
