@@ -180,7 +180,11 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
            <number>0</number>
           </property>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="pathEdit"/>
+           <widget class="QLineEdit" name="pathEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="parentButton">
@@ -239,7 +243,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
            <item>
             <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>Select a file or folder</string>
+              <string>Selectionnez un fichier ou un dossier</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -275,18 +279,22 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Type: Dossier / Fichier</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Nom de l'element</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
+             <item>
+              <widget class="QLabel" name="iconLabel">
+               <property name="text">
+                <string>Icon</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="nameLabel">
+               <property name="text">
+                <string>Nom de l'element</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -319,7 +327,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
            <item>
             <widget class="QLabel" name="countLabel">
              <property name="text">
-              <string>Éléments séléctionnés: 2</string>
+              <string>Éléments séléctionnés: X</string>
              </property>
             </widget>
            </item>
@@ -353,18 +361,22 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Fichier</string>
     </property>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuTag">
     <property name="title">
-     <string>Tag</string>
+     <string>Tags</string>
     </property>
+    <addaction name="actionAjouter"/>
+    <addaction name="actionSupprimer"/>
    </widget>
    <widget class="QMenu" name="menuAide">
     <property name="title">
      <string>Aide</string>
     </property>
+    <addaction name="actionDocumentation"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTag"/>
@@ -374,6 +386,26 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
   <action name="actionFile">
    <property name="text">
     <string>File</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionAjouter">
+   <property name="text">
+    <string>Ajouter</string>
+   </property>
+  </action>
+  <action name="actionSupprimer">
+   <property name="text">
+    <string>Supprimer</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
    </property>
   </action>
  </widget>
