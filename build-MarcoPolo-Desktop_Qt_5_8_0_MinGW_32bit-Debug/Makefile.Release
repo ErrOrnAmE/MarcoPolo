@@ -17,13 +17,13 @@ CXXFLAGS      = -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -
 INCPATH       = -I../MarcoPolo -I. -ID:/Programs/Qt2/5.8/mingw53_32/include -ID:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets -ID:/Programs/Qt2/5.8/mingw53_32/include/QtGui -ID:/Programs/Qt2/5.8/mingw53_32/include/QtANGLE -ID:/Programs/Qt2/5.8/mingw53_32/include/QtCore -Irelease -I. -ID:/Programs/Qt2/5.8/mingw53_32/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,windows -mthreads
-LIBS        =        -lmingw32 -LD:/Programs/Qt2/5.8/mingw53_32/lib D:/Programs/Qt2/5.8/mingw53_32/lib/libqtmain.a -LC:/utils/my_sql/my_sql/lib -LC:/utils/postgresql/pgsql/lib -lshell32 D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Core.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Widgets.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Gui.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Core.a 
+LIBS        =        -lmingw32 -LD:/Programs/Qt2/5.8/mingw53_32/lib D:/Programs/Qt2/5.8/mingw53_32/lib/libqtmain.a -LC:/utils/my_sql/my_sql/lib -LC:/utils/postgresql/pgsql/lib -lshell32 D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Core.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Widgets.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Gui.a D:/Programs/Qt2/5.8/mingw53_32/lib/libQt5Core.a release/MarcoPolo_resource_res.o 
 QMAKE         = D:/Programs/Qt2/5.8/mingw53_32/bin/qmake.exe
 IDC           = idc
 IDL           = midl
 ZIP           = 
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = release/MarcoPolo_resource_res.o
 COPY          = cp -f
 SED           = sed
 COPY_FILE     = cp -f
@@ -61,8 +61,11 @@ DESTDIR_TARGET = release/MarcoPolo.exe
 first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) release/MarcoPolo_resource_res.o
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
+
+release/MarcoPolo_resource_res.o: MarcoPolo_resource.rc
+	windres -i MarcoPolo_resource.rc -o release/MarcoPolo_resource_res.o --include-dir=. $(DEFINES)
 
 qmake: FORCE
 	@$(QMAKE) -o Makefile.Release ../MarcoPolo/MarcoPolo.pro -spec win32-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -74,6 +77,7 @@ dist:
 
 clean: compiler_clean 
 	-$(DEL_FILE) release/main.o release/mainwindow.o release/moc_mainwindow.o
+	-$(DEL_FILE) release/MarcoPolo_resource_res.o
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash
@@ -205,6 +209,12 @@ release/moc_mainwindow.cpp: D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QMa
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qtouchdevice.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qtabwidget.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qicon.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QFileSystemModel \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qfilesystemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdir.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qfileinfo.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdiriterator.h \
 		../MarcoPolo/mainwindow.h \
 		release/moc_predefs.h \
 		D:/Programs/Qt2/5.8/mingw53_32/bin/moc.exe
@@ -336,6 +346,12 @@ release/main.o: ../MarcoPolo/main.cpp ../MarcoPolo/mainwindow.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qtouchdevice.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qtabwidget.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qicon.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QFileSystemModel \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qfilesystemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdir.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qfileinfo.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdiriterator.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QApplication \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qapplication.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -450,7 +466,65 @@ release/mainwindow.o: ../MarcoPolo/mainwindow.cpp ../MarcoPolo/mainwindow.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qtouchdevice.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qtabwidget.h \
 		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QFileSystemModel \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qfilesystemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdir.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qfileinfo.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qdiriterator.h \
+		ui_mainwindow.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/QVariant \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QAction \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qaction.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qactiongroup.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QApplication \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qapplication.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qcoreapplication.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qeventloop.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qdesktopwidget.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qguiapplication.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qinputmethod.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QButtonGroup \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qbuttongroup.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QGridLayout \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qgridlayout.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qlayout.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qlayoutitem.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qboxlayout.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QHBoxLayout \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QHeaderView \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qheaderview.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractitemview.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qframe.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qitemselectionmodel.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qstyleoption.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractspinbox.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtGui/qvalidator.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtCore/qregularexpression.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qslider.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractslider.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qstyle.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qtabbar.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qrubberband.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QListView \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qlistview.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QListWidget \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qlistwidget.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QMenu \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qmenu.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QMenuBar \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qmenubar.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QPushButton \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qpushbutton.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qabstractbutton.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QStatusBar \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qstatusbar.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QTreeView \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/qtreeview.h \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QVBoxLayout \
+		D:/Programs/Qt2/5.8/mingw53_32/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/mainwindow.o ../MarcoPolo/mainwindow.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 

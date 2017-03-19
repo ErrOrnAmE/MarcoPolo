@@ -196,6 +196,7 @@ Makefile: ../MarcoPolo/MarcoPolo.pro D:/Programs/Qt2/5.8/mingw53_32/mkspecs/win3
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/qt_config.prf \
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/win32-g++/qmake.conf \
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/exclusive_builds.prf \
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/toolchain.prf \
 		D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/default_pre.prf \
@@ -362,6 +363,7 @@ D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/qt_functions.prf:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/qt_config.prf:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/win32-g++/qmake.conf:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/spec_post.prf:
+.qmake.stash:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/exclusive_builds.prf:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/toolchain.prf:
 D:/Programs/Qt2/5.8/mingw53_32/mkspecs/features/default_pre.prf:

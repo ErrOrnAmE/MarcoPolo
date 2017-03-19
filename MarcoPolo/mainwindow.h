@@ -18,12 +18,20 @@ public:
 
 private slots:
     void on_treeView_clicked(const QModelIndex &index);
-    void on_listView_doubleClicked(const QModelIndex &index);
+    void on_tableView_clicked(const QModelIndex &index);
+    void on_tableView_doubleClicked(const QModelIndex &index);
+    void on_filterButton_clicked();
+    void on_treeButton_clicked();
+    void on_pathEdit_textChanged(const QString &text);
+    void on_parentButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QFileSystemModel *drivesModel;
     QFileSystemModel *filesModel;
+    QString currentPath;
+    void filterMode();
+    void treeMode();
 };
 
 #endif // MAINWINDOW_H

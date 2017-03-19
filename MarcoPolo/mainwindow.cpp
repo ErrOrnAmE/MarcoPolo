@@ -7,10 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString sPath = "C:/";
+    this->filterMode();
+
+    currentPath = "";
     drivesModel = new QFileSystemModel(this);
     drivesModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
-    drivesModel->setRootPath(sPath);
+    drivesModel->setRootPath(currentPath);
     ui->treeView->setModel(drivesModel);
     ui->treeView->setHeaderHidden(true);
     ui->treeView->hideColumn(1);
@@ -19,8 +21,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     filesModel = new QFileSystemModel(this);
     filesModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
-    filesModel->setRootPath(sPath);
-    ui->listView->setModel(filesModel);
+    filesModel->setRootPath(currentPath);
+    ui->tableView->setModel(filesModel);
+    ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->tableView->hideColumn(1);
+    ui->tableView->hideColumn(2);
+    ui->tableView->hideColumn(3);
+    ui->tableView->horizontalHeader()->setStretchLastSection(true);
+
+    ui->pathEdit->setText(currentPath);
 }
 
 MainWindow::~MainWindow()
@@ -29,14 +38,68 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_treeView_clicked(const QModelIndex &index) {
-    QString sPath = drivesModel->fileInfo(index).absoluteFilePath();
-    ui->listView->setRootIndex(filesModel->setRootPath(sPath));
+    currentPath = drivesModel->fileInfo(index).absoluteFilePath();
+    ui->pathEdit->setText(currentPath);
 }
 
-void MainWindow::on_listView_doubleClicked(const QModelIndex &index) {
+void MainWindow::on_tableView_clicked(const QModelIndex &index) {
+
+}
+
+void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
     if (filesModel->fileInfo(index).isDir()) {
-        QString sPath = filesModel->fileInfo(index).absoluteFilePath();
-        ui->listView->setRootIndex(filesModel->setRootPath(sPath));
-        //ui->treeView->set
+        currentPath = filesModel->fileInfo(index).absoluteFilePath();
+        QModelIndex parent = drivesModel->index(currentPath).parent();
+        if (parent != QModelIndex()) {
+            ui->treeView->setExpanded(parent,true);
+        }
+        ui->treeView->setExpanded(drivesModel->index(currentPath),true);
+        ui->pathEdit->setText(currentPath);
     }
+}
+
+void MainWindow::on_filterButton_clicked() {
+    filterMode();
+}
+
+void MainWindow::on_treeButton_clicked() {
+    treeMode();
+}
+
+void MainWindow::on_pathEdit_textChanged(const QString &text) {
+    currentPath = text;
+    ui->tableView->setRootIndex(filesModel->setRootPath(currentPath));
+    ui->tableView->clearSelection();
+}
+
+void MainWindow::on_parentButton_clicked() {
+    QModelIndex parent = filesModel->index(currentPath).parent();
+    if (parent != QModelIndex()) {
+        currentPath = filesModel->fileInfo(parent).absoluteFilePath();
+    } else {
+        currentPath = "";
+    }
+    ui->pathEdit->setText(currentPath);
+}
+
+void MainWindow::filterMode() {
+    ui->filterButton->setDefault(true);
+    ui->treeButton->setDefault(false);
+    ui->listWidget->show();
+    ui->treeView->hide();
+    ui->parentButton->hide();
+    ui->clearButton->show();
+    ui->pathEdit->hide();
+    ui->tagsEdit->show();
+}
+
+void MainWindow::treeMode() {
+    ui->filterButton->setDefault(false);
+    ui->treeButton->setDefault(true);
+    ui->listWidget->hide();
+    ui->treeView->show();
+    ui->parentButton->show();
+    ui->clearButton->hide();
+    ui->pathEdit->show();
+    ui->tagsEdit->hide();
 }
