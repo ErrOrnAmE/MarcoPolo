@@ -148,12 +148,15 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="listWidget">
+         <widget class="QListView" name="tagView">
           <property name="enabled">
            <bool>true</bool>
           </property>
           <property name="autoFillBackground">
            <bool>false</bool>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::ListMode</enum>
           </property>
          </widget>
         </item>
@@ -291,6 +294,9 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
               <widget class="QLabel" name="nameLabel">
                <property name="text">
                 <string>Nom de l'element</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

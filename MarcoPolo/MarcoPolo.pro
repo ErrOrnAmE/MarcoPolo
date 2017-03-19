@@ -24,12 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    tags.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    tags.h
 
 FORMS    += mainwindow.ui
 
 #Icons
 RC_ICONS = logo.ico
 ICON = logo.icns
+
+DISTFILES +=

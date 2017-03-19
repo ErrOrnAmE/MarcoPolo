@@ -1,12 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tags.h"
 #include <QDesktopServices>
 #include <QUrl>
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    tags = new Tags();
+    tags->readConfig();
     ui->setupUi(this);
 
     this->filterMode();
@@ -33,6 +39,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
     ui->pathEdit->setText(currentPath);
+
+    QStandardItemModel *model = new QStandardItemModel();
+    QList<QStandardItem *> *truc = new QList<QStandardItem*>();
+    QList<QStandardItem *> *truc3 = new QList<QStandardItem*>();
+    model->appendColumn(*truc);
+    model->appendColumn(*truc3);
+    foreach (QString item, tags->tags.keys()) {
+        QStandardItem *line = new QStandardItem();
+        QStandardItem *line2 = new QStandardItem();
+        QList<QStandardItem *> *truc2 = new QList<QStandardItem*>();
+        line->setText(item);
+        QPixmap *pix = new QPixmap(15,15);
+        QPainter painter(pix);
+        painter.setPen(QColor(0,0,0));
+        painter.setBrush(QBrush(QColor(0,255,0,255)));
+        painter.fillRect(0,0,15,15,QColor(255,255,255));
+        painter.drawEllipse(1,1,13,13);
+        line->setData(*pix,Qt::DecorationRole);
+        //line2->setText(QString::number(42));
+        truc2->append(line);
+        model->appendRow(*truc2);
+    }
+   // ui->listView->setModel(model);
+    ui->tagView->setModel(model);
 }
 
 MainWindow::~MainWindow()
@@ -104,7 +134,7 @@ void MainWindow::on_openButton_clicked() {
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
-    ui->listWidget->show();
+    ui->tagView->show();
     ui->treeView->hide();
     ui->parentButton->hide();
     ui->clearButton->show();
@@ -115,7 +145,7 @@ void MainWindow::filterMode() {
 void MainWindow::treeMode() {
     ui->filterButton->setDefault(false);
     ui->treeButton->setDefault(true);
-    ui->listWidget->hide();
+    ui->tagView->hide();
     ui->treeView->show();
     ui->parentButton->show();
     ui->clearButton->hide();

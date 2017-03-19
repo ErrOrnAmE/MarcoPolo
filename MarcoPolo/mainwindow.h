@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileSystemModel>
+#include "tags.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,7 @@ private slots:
     void on_openButton_clicked();
 
 private:
+    Tags *tags;
     Ui::MainWindow *ui;
     QFileSystemModel *drivesModel;
     QFileSystemModel *filesModel;
