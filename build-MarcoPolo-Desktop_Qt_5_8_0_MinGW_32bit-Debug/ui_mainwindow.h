@@ -42,20 +42,20 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
-    QVBoxLayout *verticalLayout;
+    QVBoxLayout *leftPanel;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *filterButton;
     QPushButton *treeButton;
     QListView *tagView;
     QTreeView *treeView;
-    QVBoxLayout *verticalLayout_5;
-    QGridLayout *gridLayout_2;
+    QVBoxLayout *centerPanel;
+    QGridLayout *pathBar;
     QLineEdit *pathEdit;
     QPushButton *parentButton;
     QPushButton *clearButton;
     QLineEdit *tagsEdit;
     QTableView *tableView;
-    QVBoxLayout *verticalLayout_3;
+    QVBoxLayout *rightPanel;
     QWidget *noneSelectedInformation;
     QVBoxLayout *noneSelectedInfo;
     QLabel *label_4;
@@ -87,15 +87,54 @@ public:
         sizePolicy.setVerticalStretch(1);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setAutoFillBackground(true);
-        MainWindow->setStyleSheet(QLatin1String("QPushButton { border: 1px solid #4ca4ae; padding: 5px 0px 5px 0px;}\n"
-"QPushButton:!focus {background-color : white; color:#212121}\n"
-"QPushButton:default {background-color : #4ca4ae; color:white}\n"
-"QPushButton:hover {background-color : #804ca4ae; color:white}\n"
+        MainWindow->setAutoFillBackground(false);
+        MainWindow->setStyleSheet(QLatin1String("QVBoxLayout#centerPanel {\n"
+"	border : 1px solid #264ca4ae\n"
+"}\n"
 "\n"
-"QTreeView::item:hover {background-color : #404ca4ae; color:white} \n"
-"QTreeView::item:selected {background-color : #804ca4ae; color:white} \n"
-"QTableView::item:hover {background-color : #404ca4ae; color:white}\n"
+"QWidget {\n"
+"	background-color : white;\n"
+"	border: 0px solide transparent;\n"
+"}\n"
+"QListWidget#listWidget, QTreeView#treeView {\n"
+"	background-color : #334ca4ae;\n"
+"}\n"
+"QMenuBar {\n"
+"	background-color : #1D4ca4ae\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"	border : 0px solid transparent;\n"
+"	min-width:20px;\n"
+"	padding: 5px 0px 5px 0px;\n"
+"	color:#212121\n"
+"}\n"
+"QPushButton:pressed {\n"
+"	background-color : #334ca4ae\n"
+"}\n"
+"QPushButton#openButton {\n"
+"	background-color : #204ca4ae;\n"
+"}\n"
+"\n"
+"QPushButton#filterButton, QPushButton#treeButton {\n"
+"	border: 0px solid transparent; }\n"
+"QPushButton#filterButton:!focus, QPushButton#treeButton:!focus {\n"
+"	background-color : #1D4ca4ae;\n"
+"}\n"
+"QPushButton#filterButton:default, QPushButton#treeButton:default {\n"
+"	background-color : #334ca4ae;\n"
+"	color:white;\n"
+"	font-weight: bold;\n"
+"	border-top: 1px solid #4ca4ae;\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color : #2"
+                        "64ca4ae;\n"
+"}\n"
+"\n"
+"QTreeView::item:hover {background-color : #404ca4ae;}\n"
+"QTreeView::item:selected {background-color : #804ca4ae; color:white}\n"
+"QTableView::item:hover {background-color : #404ca4ae;}\n"
 "QTableView::item:selected {background-color : #804ca4ae; color:white}\n"
 "\n"
 " QScrollBar:vertical {\n"
@@ -115,8 +154,7 @@ public:
 "     subcontrol-origin: margin;\n"
 " }\n"
 "\n"
-" QScrollBar::sub-line:ver"
-                        "tical {\n"
+" QScrollBar::sub-line:vertical {\n"
 "     background: #FAFAFA;\n"
 "     height: 20px;\n"
 "     subcontrol-position: top;\n"
@@ -125,7 +163,8 @@ public:
 " QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
 "     width: 3px;\n"
 "     height: 3px;\n"
-"     background: #4ca4ae;\n"
+"     background: #4c"
+                        "a4ae;\n"
 " }\n"
 "\n"
 " QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
@@ -150,7 +189,7 @@ public:
         sizePolicy1.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
         centralWidget->setSizePolicy(sizePolicy1);
         centralWidget->setMaximumSize(QSize(100000, 100000));
-        centralWidget->setAutoFillBackground(true);
+        centralWidget->setAutoFillBackground(false);
         gridLayout = new QGridLayout(centralWidget);
         gridLayout->setSpacing(0);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -159,15 +198,18 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(0);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(0);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        leftPanel = new QVBoxLayout();
+        leftPanel->setSpacing(0);
+        leftPanel->setObjectName(QStringLiteral("leftPanel"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(0);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         filterButton = new QPushButton(centralWidget);
         filterButton->setObjectName(QStringLiteral("filterButton"));
         filterButton->setAutoFillBackground(false);
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/ic_filter.png"), QSize(), QIcon::Normal, QIcon::Off);
+        filterButton->setIcon(icon);
         filterButton->setCheckable(false);
         filterButton->setFlat(false);
 
@@ -175,61 +217,75 @@ public:
 
         treeButton = new QPushButton(centralWidget);
         treeButton->setObjectName(QStringLiteral("treeButton"));
+        treeButton->setStyleSheet(QStringLiteral(""));
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/ic_arbo.png"), QSize(), QIcon::Normal, QIcon::Off);
+        treeButton->setIcon(icon1);
 
         horizontalLayout_2->addWidget(treeButton);
 
 
-        verticalLayout->addLayout(horizontalLayout_2);
+        leftPanel->addLayout(horizontalLayout_2);
 
         tagView = new QListView(centralWidget);
         tagView->setObjectName(QStringLiteral("tagView"));
         tagView->setEnabled(true);
         tagView->setAutoFillBackground(false);
         tagView->setViewMode(QListView::ListMode);
+        tagView->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(tagView);
+        leftPanel->addWidget(tagView);
 
         treeView = new QTreeView(centralWidget);
         treeView->setObjectName(QStringLiteral("treeView"));
         treeView->setEnabled(true);
         treeView->setAutoFillBackground(false);
+        treeView->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(treeView);
+        leftPanel->addWidget(treeView);
 
 
-        horizontalLayout->addLayout(verticalLayout);
+        horizontalLayout->addLayout(leftPanel);
 
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(0);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setSpacing(0);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        centerPanel = new QVBoxLayout();
+        centerPanel->setSpacing(0);
+        centerPanel->setObjectName(QStringLiteral("centerPanel"));
+        pathBar = new QGridLayout();
+        pathBar->setSpacing(0);
+        pathBar->setObjectName(QStringLiteral("pathBar"));
         pathEdit = new QLineEdit(centralWidget);
         pathEdit->setObjectName(QStringLiteral("pathEdit"));
+        pathEdit->setStyleSheet(QStringLiteral(""));
         pathEdit->setEnabled(true);
 
-        gridLayout_2->addWidget(pathEdit, 0, 1, 1, 1);
+        pathBar->addWidget(pathEdit, 0, 1, 1, 1);
 
         parentButton = new QPushButton(centralWidget);
         parentButton->setObjectName(QStringLiteral("parentButton"));
         parentButton->setMaximumSize(QSize(30, 25));
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/ic_subdirectory.png"), QSize(), QIcon::Normal, QIcon::Off);
+        parentButton->setIcon(icon2);
 
-        gridLayout_2->addWidget(parentButton, 0, 0, 1, 1);
+        pathBar->addWidget(parentButton, 0, 0, 1, 1);
 
         clearButton = new QPushButton(centralWidget);
         clearButton->setObjectName(QStringLiteral("clearButton"));
         clearButton->setMaximumSize(QSize(25, 25));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/ic_delete.png"), QSize(), QIcon::Normal, QIcon::Off);
+        clearButton->setIcon(icon3);
 
-        gridLayout_2->addWidget(clearButton, 0, 3, 1, 1);
+        pathBar->addWidget(clearButton, 0, 3, 1, 1);
 
         tagsEdit = new QLineEdit(centralWidget);
         tagsEdit->setObjectName(QStringLiteral("tagsEdit"));
+        tagsEdit->setStyleSheet(QStringLiteral(""));
 
-        gridLayout_2->addWidget(tagsEdit, 0, 2, 1, 1);
+        pathBar->addWidget(tagsEdit, 0, 2, 1, 1);
 
 
-        verticalLayout_5->addLayout(gridLayout_2);
+        centerPanel->addLayout(pathBar);
 
         tableView = new QTableView(centralWidget);
         tableView->setObjectName(QStringLiteral("tableView"));
@@ -237,14 +293,14 @@ public:
         tableView->verticalHeader()->setVisible(false);
         tableView->verticalHeader()->setDefaultSectionSize(23);
 
-        verticalLayout_5->addWidget(tableView);
+        centerPanel->addWidget(tableView);
 
 
-        horizontalLayout->addLayout(verticalLayout_5);
+        horizontalLayout->addLayout(centerPanel);
 
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(0);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        rightPanel = new QVBoxLayout();
+        rightPanel->setSpacing(0);
+        rightPanel->setObjectName(QStringLiteral("rightPanel"));
         noneSelectedInformation = new QWidget(centralWidget);
         noneSelectedInformation->setObjectName(QStringLiteral("noneSelectedInformation"));
         noneSelectedInfo = new QVBoxLayout(noneSelectedInformation);
@@ -258,7 +314,7 @@ public:
         noneSelectedInfo->addWidget(label_4);
 
 
-        verticalLayout_3->addWidget(noneSelectedInformation);
+        rightPanel->addWidget(noneSelectedInformation);
 
         oneSelectedInformation = new QWidget(centralWidget);
         oneSelectedInformation->setObjectName(QStringLiteral("oneSelectedInformation"));
@@ -292,7 +348,7 @@ public:
         oneSelectedInfo->addLayout(horizontalLayout_3);
 
 
-        verticalLayout_3->addWidget(oneSelectedInformation);
+        rightPanel->addWidget(oneSelectedInformation);
 
         multiSelectedInformation = new QWidget(centralWidget);
         multiSelectedInformation->setObjectName(QStringLiteral("multiSelectedInformation"));
@@ -313,20 +369,20 @@ public:
         verticalLayout_6->addWidget(countLabel);
 
 
-        verticalLayout_3->addWidget(multiSelectedInformation);
+        rightPanel->addWidget(multiSelectedInformation);
 
         tagListView = new QListView(centralWidget);
         tagListView->setObjectName(QStringLiteral("tagListView"));
 
-        verticalLayout_3->addWidget(tagListView);
+        rightPanel->addWidget(tagListView);
 
         openButton = new QPushButton(centralWidget);
         openButton->setObjectName(QStringLiteral("openButton"));
 
-        verticalLayout_3->addWidget(openButton);
+        rightPanel->addWidget(openButton);
 
 
-        horizontalLayout->addLayout(verticalLayout_3);
+        horizontalLayout->addLayout(rightPanel);
 
         horizontalLayout->setStretch(0, 1);
         horizontalLayout->setStretch(1, 2);
@@ -374,10 +430,10 @@ public:
         actionAjouter->setText(QApplication::translate("MainWindow", "Ajouter", Q_NULLPTR));
         actionSupprimer->setText(QApplication::translate("MainWindow", "Supprimer", Q_NULLPTR));
         actionDocumentation->setText(QApplication::translate("MainWindow", "Documentation", Q_NULLPTR));
-        filterButton->setText(QApplication::translate("MainWindow", "Filter", Q_NULLPTR));
-        treeButton->setText(QApplication::translate("MainWindow", "Tree", Q_NULLPTR));
-        parentButton->setText(QApplication::translate("MainWindow", "^_", Q_NULLPTR));
-        clearButton->setText(QApplication::translate("MainWindow", "X", Q_NULLPTR));
+        filterButton->setText(QString());
+        treeButton->setText(QString());
+        parentButton->setText(QString());
+        clearButton->setText(QString());
         label_4->setText(QApplication::translate("MainWindow", "Selectionnez un fichier ou un dossier", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "INFORMATIONS", Q_NULLPTR));
         iconLabel->setText(QApplication::translate("MainWindow", "Icon", Q_NULLPTR));

@@ -37,3 +37,6 @@ RC_ICONS = logo.ico
 ICON = logo.icns
 
 DISTFILES +=
+
+RESOURCES += \
+    marcopoloresources.qrc
