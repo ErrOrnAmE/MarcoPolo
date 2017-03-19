@@ -147,19 +147,22 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="leftPanel">
+       <layout class="QVBoxLayout" name="leftPanel" stretch="0,1,1">
         <property name="spacing">
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
           <property name="spacing">
            <number>0</number>
           </property>
           <item>
            <widget class="QPushButton" name="filterButton">
-            <property name="autoFillBackground">
-             <bool>false</bool>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
              <string/>
@@ -168,21 +171,15 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
              <iconset resource="marcopoloresources.qrc">
               <normaloff>:/ic_filter.png</normaloff>:/ic_filter.png</iconset>
             </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="default">
-             <bool>false</bool>
-            </property>
-            <property name="flat">
-             <bool>false</bool>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="treeButton">
-            <property name="styleSheet">
-             <string notr="true"/>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
              <string/>
@@ -190,9 +187,6 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
             <property name="icon">
              <iconset resource="marcopoloresources.qrc">
               <normaloff>:/ic_arbo.png</normaloff>:/ic_arbo.png</iconset>
-            </property>
-            <property name="default">
-             <bool>false</bool>
             </property>
            </widget>
           </item>
