@@ -23,7 +23,48 @@
    <bool>true</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QPushButton { border: 1px solid #4ca4ae; padding: 5px 0px 5px 0px;}
+QPushButton:!focus {background-color : white; color:#212121}
+QPushButton:default {background-color : #4ca4ae; color:white}
+QPushButton:hover {background-color : #804ca4ae; color:white}
+
+QTreeView::item:hover {background-color : #404ca4ae; color:white} 
+QTreeView::item:selected {background-color : #804ca4ae; color:white} 
+QTableView::item:hover {background-color : #404ca4ae; color:white}
+QTableView::item:selected {background-color : #804ca4ae; color:white}
+
+ QScrollBar:vertical {
+     background: #FAFAFA;
+     width: 15px;
+     margin: 22px 0 22px 0;
+ }
+ QScrollBar::handle:vertical {
+     background: #804ca4ae;
+     border: 1px solid #4ca4ae;
+     min-height: 20px;
+ }
+ QScrollBar::add-line:vertical {
+     background: #FAFAFA;
+     height: 20px;
+     subcontrol-position: bottom;
+     subcontrol-origin: margin;
+ }
+
+ QScrollBar::sub-line:vertical {
+     background: #FAFAFA;
+     height: 20px;
+     subcontrol-position: top;
+     subcontrol-origin: margin;
+ }
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     width: 3px;
+     height: 3px;
+     background: #4ca4ae;
+ }
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
@@ -77,6 +118,9 @@
           </property>
           <item>
            <widget class="QPushButton" name="filterButton">
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Filter</string>
             </property>
