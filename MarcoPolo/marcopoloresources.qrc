@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ic_add.png</file>
+        <file>ic_arbo.png</file>
+        <file>ic_subdirectory.png</file>
+        <file>ic_delete.png</file>
+        <file>ic_filter.png</file>
+    </qresource>
+</RCC>

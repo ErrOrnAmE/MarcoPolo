@@ -20,17 +20,55 @@
    <string>Marco Polo</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton { border: 1px solid #4ca4ae; padding: 5px 0px 5px 0px;}
-QPushButton:!focus {background-color : white; color:#212121}
-QPushButton:default {background-color : #4ca4ae; color:white}
-QPushButton:hover {background-color : #804ca4ae; color:white}
+   <string notr="true">QVBoxLayout#centerPanel {
+	border : 1px solid #264ca4ae
+}
 
-QTreeView::item:hover {background-color : #404ca4ae; color:white} 
+QWidget {
+	background-color : white; 
+	border: 0px solide transparent; 
+}
+QListWidget#listWidget, QTreeView#treeView { 
+	background-color : #334ca4ae; 
+} 
+QMenuBar {
+	background-color : #1D4ca4ae
+}
+
+QPushButton {
+	border : 0px solid transparent;
+	min-width:20px; 
+	padding: 5px 0px 5px 0px; 
+	color:#212121
+}
+QPushButton:pressed {
+	background-color : #334ca4ae
+}
+QPushButton#openButton {
+	background-color : #204ca4ae;
+}
+
+QPushButton#filterButton, QPushButton#treeButton { 
+	border: 0px solid transparent; }
+QPushButton#filterButton:!focus, QPushButton#treeButton:!focus {
+	background-color : #1D4ca4ae; 
+}
+QPushButton#filterButton:default, QPushButton#treeButton:default {
+	background-color : #334ca4ae; 
+	color:white; 
+	font-weight: bold; 
+	border-top: 1px solid #4ca4ae; 
+}
+QPushButton:hover {
+	background-color : #264ca4ae; 
+}
+
+QTreeView::item:hover {background-color : #404ca4ae;} 
 QTreeView::item:selected {background-color : #804ca4ae; color:white} 
-QTableView::item:hover {background-color : #404ca4ae; color:white}
+QTableView::item:hover {background-color : #404ca4ae;}
 QTableView::item:selected {background-color : #804ca4ae; color:white}
 
  QScrollBar:vertical {
@@ -83,7 +121,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
     </size>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
@@ -107,7 +145,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="leftPanel">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -122,7 +160,11 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Filter</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_filter.png</normaloff>:/ic_filter.png</iconset>
             </property>
             <property name="checkable">
              <bool>false</bool>
@@ -137,8 +179,15 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           </item>
           <item>
            <widget class="QPushButton" name="treeButton">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
-             <string>Tree</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_arbo.png</normaloff>:/ic_arbo.png</iconset>
             </property>
             <property name="default">
              <bool>false</bool>
@@ -155,6 +204,10 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
+          <property name="styleSheet">
+           <string notr="true">
+</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -165,22 +218,29 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="centerPanel" stretch="0,0">
         <property name="spacing">
          <number>0</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_2">
+         <layout class="QGridLayout" name="pathBar">
           <property name="spacing">
            <number>0</number>
           </property>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="pathEdit"/>
+           <widget class="QLineEdit" name="pathEdit">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
           </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="parentButton">
@@ -191,7 +251,11 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
              </size>
             </property>
             <property name="text">
-             <string>^_</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_subdirectory.png</normaloff>:/ic_subdirectory.png</iconset>
             </property>
            </widget>
           </item>
@@ -204,12 +268,20 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
              </size>
             </property>
             <property name="text">
-             <string>X</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_delete.png</normaloff>:/ic_delete.png</iconset>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLineEdit" name="tagsEdit"/>
+           <widget class="QLineEdit" name="tagsEdit">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -229,7 +301,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="rightPanel">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -378,6 +450,8 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="marcopoloresources.qrc"/>
+ </resources>
  <connections/>
 </ui>
