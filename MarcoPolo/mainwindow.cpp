@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     this->filterMode();
+    this->noneSelectedMode();
 
     currentPath = "";
     drivesModel = new QFileSystemModel(this);
@@ -40,10 +41,18 @@ MainWindow::~MainWindow()
 void MainWindow::on_treeView_clicked(const QModelIndex &index) {
     currentPath = drivesModel->fileInfo(index).absoluteFilePath();
     ui->pathEdit->setText(currentPath);
+    this->noneSelectedMode();
 }
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index) {
-
+    QItemSelection selected = ui->tableView->selectionModel()->selection();
+    if (selected.length() > 1) {
+        this->multiSelectedMode();
+    } else if (selected.length() == 1) {
+        this->oneSelectedMode();
+    } else {
+        this->noneSelectedMode();
+    }
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
@@ -55,6 +64,7 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
         }
         ui->treeView->setExpanded(drivesModel->index(currentPath),true);
         ui->pathEdit->setText(currentPath);
+        this->noneSelectedMode();
     }
 }
 
@@ -80,6 +90,7 @@ void MainWindow::on_parentButton_clicked() {
         currentPath = "";
     }
     ui->pathEdit->setText(currentPath);
+    this->noneSelectedMode();
 }
 
 void MainWindow::filterMode() {
@@ -102,4 +113,31 @@ void MainWindow::treeMode() {
     ui->clearButton->hide();
     ui->pathEdit->show();
     ui->tagsEdit->hide();
+}
+
+void MainWindow::noneSelectedMode() {
+    ui->noneSelectedInformation->show();
+    ui->oneSelectedInformation->hide();
+    ui->multiSelectedInformation->hide();
+    ui->tagListView->hide();
+    ui->openButton->hide();
+}
+
+void MainWindow::oneSelectedMode() {
+    ui->noneSelectedInformation->hide();
+    ui->oneSelectedInformation->show();
+    ui->multiSelectedInformation->hide();
+    ui->tagListView->show();
+    ui->openButton->show();
+}
+
+void MainWindow::multiSelectedMode() {
+    ui->noneSelectedInformation->hide();
+    ui->oneSelectedInformation->hide();
+    QString text = "Éléments séléctionnés: ";
+    text.append(QString::number(ui->tableView->selectionModel()->selection().length()));
+    ui->countLabel->setText(text);
+    ui->multiSelectedInformation->show();
+    ui->tagListView->show();
+    ui->openButton->show();
 }
