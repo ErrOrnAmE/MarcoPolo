@@ -32,6 +32,9 @@ private:
     QString currentPath;
     void filterMode();
     void treeMode();
+    void noneSelectedMode();
+    void oneSelectedMode();
+    void multiSelectedMode();
 };
 
 #endif // MAINWINDOW_H

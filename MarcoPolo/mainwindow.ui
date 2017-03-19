@@ -102,7 +102,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,2,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2,1">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -230,51 +230,107 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <property name="leftMargin">
-           <number>10</number>
-          </property>
-          <property name="topMargin">
-           <number>10</number>
-          </property>
-          <property name="rightMargin">
-           <number>10</number>
-          </property>
-          <property name="bottomMargin">
-           <number>10</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>INFORMATIONS</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Type: Dossier / Fichier</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Nom de l'element</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QWidget" name="noneSelectedInformation" native="true">
+          <layout class="QVBoxLayout" name="noneSelectedInfo">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Select a file or folder</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item>
-         <widget class="QListView" name="listView_2"/>
+         <widget class="QWidget" name="oneSelectedInformation" native="true">
+          <layout class="QVBoxLayout" name="oneSelectedInfo">
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="topMargin">
+            <number>10</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>INFORMATIONS</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Type: Dossier / Fichier</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Nom de l'element</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QWidget" name="multiSelectedInformation" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="topMargin">
+            <number>10</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>INFORMATIONS</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="countLabel">
+             <property name="text">
+              <string>Éléments séléctionnés: 2</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListView" name="tagListView"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openButton">
           <property name="text">
            <string>Ouvrir</string>
           </property>
