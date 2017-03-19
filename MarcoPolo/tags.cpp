@@ -13,7 +13,7 @@ Tags::Tags()
 void Tags::readConfig() {
    QFile loadFile(QStringLiteral("tags.json"));
 
-   if (!loadFile.open(QIODevice::ReadOnly)) {
+   if (!loadFile.open(QIODevice::ReadWrite)) {
        qInfo("Couldn't open save file.");
    }
 

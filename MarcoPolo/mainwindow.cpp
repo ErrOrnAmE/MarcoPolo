@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->pathEdit->setText(currentPath);
 
+    //Remplissage de la liste des tags
+    ui->tagView->setSelectionMode(QAbstractItemView::MultiSelection);
     QStandardItemModel *model = new QStandardItemModel();
     QList<QStandardItem *> *truc = new QList<QStandardItem*>();
     QList<QStandardItem *> *truc3 = new QList<QStandardItem*>();
@@ -85,6 +87,15 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     } else {
         this->noneSelectedMode();
     }
+}
+
+void MainWindow::on_tagView_clicked(const QModelIndex &index) {
+    QModelIndexList templatelist = ui->tagView->selectionModel()->selectedIndexes();
+    QStringList stringlist;
+    foreach (const QModelIndex &index, templatelist){
+        stringlist.append(index.data(Qt::DisplayRole).toString());
+    }
+    ui->tagsEdit->setText(stringlist.join(", "));
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {

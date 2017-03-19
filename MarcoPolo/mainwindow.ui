@@ -31,7 +31,7 @@ QWidget {
 	background-color : white;
 	border: 0px solide transparent;
 }
-QListWidget#listWidget, QTreeView#treeView {
+QListView#tagView, QTreeView#treeView {
 	background-color : #334ca4ae;
 }
 QMenuBar {
@@ -66,6 +66,8 @@ QPushButton:hover {
 	background-color : #264ca4ae;
 }
 
+QListView::item:hover {background-color : #404ca4ae;}
+QListView::item:selected {background-color : #804ca4ae; color:white}
 QTreeView::item:hover {background-color : #404ca4ae;}
 QTreeView::item:selected {background-color : #804ca4ae; color:white}
 QTableView::item:hover {background-color : #404ca4ae;}
@@ -204,12 +206,11 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="viewMode">
            <enum>QListView::ListMode</enum>
-       </property>
-          <property name="styleSheet">
-           <string notr="true">
-        </string>
           </property>
          </widget>
         </item>
@@ -240,11 +241,11 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           </property>
           <item row="0" column="1">
            <widget class="QLineEdit" name="pathEdit">
-            <property name="styleSheet">
-             <string notr="true"/>
-			 </property>
             <property name="enabled">
              <bool>true</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
             </property>
            </widget>
           </item>
