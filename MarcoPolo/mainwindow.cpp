@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -49,7 +51,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     if (selected.length() > 1) {
         this->multiSelectedMode();
     } else if (selected.length() == 1) {
-        this->oneSelectedMode();
+        this->oneSelectedMode(index);
     } else {
         this->noneSelectedMode();
     }
@@ -93,6 +95,12 @@ void MainWindow::on_parentButton_clicked() {
     this->noneSelectedMode();
 }
 
+void MainWindow::on_openButton_clicked() {
+    QModelIndex file = ui->tableView->selectionModel()->selection().indexes().at(0);
+    QFileInfo info = filesModel->fileInfo(file);
+    QDesktopServices::openUrl(QUrl::fromUserInput(info.absoluteFilePath()));
+}
+
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
@@ -123,7 +131,14 @@ void MainWindow::noneSelectedMode() {
     ui->openButton->hide();
 }
 
-void MainWindow::oneSelectedMode() {
+void MainWindow::oneSelectedMode(const QModelIndex &index) {
+    QFileInfo info = filesModel->fileInfo(index);
+    if (filesModel->fileInfo(index.parent()).absolutePath() == "") {
+        ui->nameLabel->setText(info.absolutePath());
+    } else {
+        ui->nameLabel->setText(info.fileName());
+    }
+    ui->iconLabel->setPixmap(filesModel->fileIcon(index).pixmap(30));
     ui->noneSelectedInformation->hide();
     ui->oneSelectedInformation->show();
     ui->multiSelectedInformation->hide();

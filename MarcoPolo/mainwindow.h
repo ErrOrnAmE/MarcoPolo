@@ -24,6 +24,7 @@ private slots:
     void on_treeButton_clicked();
     void on_pathEdit_textChanged(const QString &text);
     void on_parentButton_clicked();
+    void on_openButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -33,7 +34,7 @@ private:
     void filterMode();
     void treeMode();
     void noneSelectedMode();
-    void oneSelectedMode();
+    void oneSelectedMode(const QModelIndex &index);
     void multiSelectedMode();
 };
 
