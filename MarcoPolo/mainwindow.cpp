@@ -186,7 +186,12 @@ void MainWindow::on_parentButton_clicked() {
 }
 
 void MainWindow::on_openButton_clicked() {
-    QModelIndex file = ui->tableView->selectionModel()->selection().indexes().at(0);
+    QModelIndex file;
+    if (ui->tableView->isHidden()) {
+        file = filesModel->index(ui->filterView->selectionModel()->selection().indexes().at(1).data().toString());
+    } else {
+        file = ui->tableView->selectionModel()->selection().indexes().at(0);
+    }
     QFileInfo info = filesModel->fileInfo(file);
     QDesktopServices::openUrl(QUrl::fromUserInput(info.absoluteFilePath()));
 }
