@@ -106,7 +106,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index) {
 void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     QItemSelection selected = ui->tableView->selectionModel()->selection();
     if (selected.length() > 1) {
-        this->multiSelectedMode();
+        this->multiSelectedMode(selected.length());
     } else if (selected.length() == 1) {
         this->oneSelectedMode(index);
     } else {
@@ -117,7 +117,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
 void MainWindow::on_filterView_clicked(const QModelIndex &index) {
     QItemSelection selected = ui->filterView->selectionModel()->selection();
     if (selected.length() > 1) {
-        this->multiSelectedMode();
+        this->multiSelectedMode(selected.length());
     } else if (selected.length() == 1) {
         this->oneSelectedMode(filesModel->index(index.sibling(index.row(),index.column()+1).data().toString()));
     } else {
@@ -246,13 +246,14 @@ void MainWindow::oneSelectedMode(const QModelIndex &index) {
     current = info;
 }
 
-void MainWindow::multiSelectedMode() {
+void MainWindow::multiSelectedMode(int size) {
     ui->noneSelectedInformation->hide();
     ui->oneSelectedInformation->hide();
     QString text = "Éléments séléctionnés: ";
-    text.append(QString::number(ui->tableView->selectionModel()->selection().length()));
+    text.append(QString::number(size));
     ui->countLabel->setText(text);
     ui->multiSelectedInformation->show();
     ui->tagListView->show();
     ui->openButton->show();
+    ui->tagListView->setModel(new QStandardItemModel());
 }

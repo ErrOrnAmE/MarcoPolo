@@ -71,6 +71,19 @@ void Tags::listTags(QListView *listView, QJsonArray linkedTags) {
     listView->setModel(model);
 }
 
+void Tags::listTags(QListView *to, QListView *from) {
+    QStandardItemModel *model = new QStandardItemModel();
+    for (auto e : from->selectionModel()->selection()) {
+        QJsonObject item = tags.value(e.topLeft().data().toString()).toObject();
+        QStandardItem *line = new QStandardItem();
+        QString name = e.topLeft().data().toString();
+        line->setText(name);
+        line->setData(drawCircle(item.value(QString("color")).toString()),Qt::DecorationRole);
+        model->appendRow(line);
+    }
+    to->setModel(model);
+}
+
 QPixmap Tags::drawCircle(QString color) {
     QPixmap *pix = new QPixmap(15,15);
     QPainter painter(pix);

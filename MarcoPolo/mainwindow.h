@@ -47,7 +47,7 @@ private:
     void treeMode();
     void noneSelectedMode();
     void oneSelectedMode(const QModelIndex &index);
-    void multiSelectedMode();
+    void multiSelectedMode(int size);
 };
 
 #endif // MAINWINDOW_H
