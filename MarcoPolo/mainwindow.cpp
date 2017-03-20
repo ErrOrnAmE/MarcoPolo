@@ -196,6 +196,8 @@ void MainWindow::on_newTag_returnPressed() {
 void MainWindow::on_clearButton_clicked() {
     ui->tagView->clearSelection();
     ui->tagsEdit->setText("");
+    ui->filterView->hide();
+    ui->tableView->show();
 }
 
 void MainWindow::filterMode() {
