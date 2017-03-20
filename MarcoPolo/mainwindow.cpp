@@ -40,29 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->pathEdit->setText(currentPath);
 
-    QStandardItemModel *model = new QStandardItemModel();
-    QList<QStandardItem *> *truc = new QList<QStandardItem*>();
-    QList<QStandardItem *> *truc3 = new QList<QStandardItem*>();
-    model->appendColumn(*truc);
-    model->appendColumn(*truc3);
-    foreach (QString item, tags->tags.keys()) {
-        QStandardItem *line = new QStandardItem();
-        QStandardItem *line2 = new QStandardItem();
-        QList<QStandardItem *> *truc2 = new QList<QStandardItem*>();
-        line->setText(item);
-        QPixmap *pix = new QPixmap(15,15);
-        QPainter painter(pix);
-        painter.setPen(QColor(0,0,0));
-        painter.setBrush(QBrush(QColor(0,255,0,255)));
-        painter.fillRect(0,0,15,15,QColor(255,255,255));
-        painter.drawEllipse(1,1,13,13);
-        line->setData(*pix,Qt::DecorationRole);
-        //line2->setText(QString::number(42));
-        truc2->append(line);
-        model->appendRow(*truc2);
-    }
-   // ui->listView->setModel(model);
-    ui->tagView->setModel(model);
+    ui->tagView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    tags->listTags(ui->tagView);
 }
 
 MainWindow::~MainWindow()
