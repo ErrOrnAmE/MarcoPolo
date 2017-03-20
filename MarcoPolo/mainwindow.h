@@ -29,6 +29,7 @@ private slots:
     void on_filterButton_clicked();
     void on_treeButton_clicked();
     void on_pathEdit_textChanged(const QString &text);
+    void on_searchEdit_textChanged(const QString &text);
     void on_parentButton_clicked();
     void on_openButton_clicked();
     void on_tagView_clicked(const QModelIndex &index);

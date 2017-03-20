@@ -9,6 +9,9 @@
 #include <QStandardItem>
 #include <QPainter>
 #include <QJsonArray>
+#include <string>
+
+using namespace std;
 
 Tags::Tags()
 {
@@ -55,6 +58,19 @@ void Tags::listTags(QListView *listView) {
         line->setText(item);
         line->setData(drawCircle(tags.value(item).toObject().value(QString("color")).toString()),Qt::DecorationRole);
         model->appendRow(line);
+    }
+    listView->setModel(model);
+}
+
+void Tags::listTags(QListView *listView, QString search) {
+    QStandardItemModel *model = new QStandardItemModel();
+    for (auto item : tags.keys()) {
+        if(item.contains(search, Qt::CaseInsensitive)){
+            QStandardItem *line = new QStandardItem();
+            line->setText(item);
+            line->setData(drawCircle(tags.value(item).toObject().value(QString("color")).toString()),Qt::DecorationRole);
+            model->appendRow(line);
+        }
     }
     listView->setModel(model);
 }

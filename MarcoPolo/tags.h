@@ -12,6 +12,7 @@ public:
     void readConfig();
     void writeConfig();
     void listTags(QListView *listView);
+    void listTags(QListView *listView, QString search);
     void listTags(QListView *listView, QJsonArray linkedTags);
     void listTags(QListView *to, QListView *from);
     QJsonObject tags;

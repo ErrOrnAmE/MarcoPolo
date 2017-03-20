@@ -170,6 +170,10 @@ void MainWindow::on_pathEdit_textChanged(const QString &text) {
     ui->tableView->clearSelection();
 }
 
+void MainWindow::on_searchEdit_textChanged(const QString &text) {
+     tags->listTags(ui->tagView, text);
+}
+
 void MainWindow::on_parentButton_clicked() {
     QModelIndex parent = filesModel->index(currentPath).parent();
     if (parent != QModelIndex()) {
@@ -220,6 +224,7 @@ void MainWindow::filterMode() {
     ui->pathEdit->hide();
     ui->tagsEdit->show();
     ui->newTag->show();
+    ui->filterIcon->show();
     noneSelectedMode();
 }
 
@@ -236,6 +241,7 @@ void MainWindow::treeMode() {
     ui->pathEdit->show();
     ui->tagsEdit->hide();
     ui->newTag->hide();
+    ui->filterIcon->hide();
     noneSelectedMode();
 }
 

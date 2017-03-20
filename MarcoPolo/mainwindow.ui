@@ -152,7 +152,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="leftPanel" stretch="0,0,1,1">
+       <layout class="QVBoxLayout" name="leftPanel" stretch="0,0,0,1,1">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -243,6 +243,28 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="searchIcon">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_filter.png</normaloff>:/ic_filter.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="searchEdit">
+            <property name="placeholderText">
+             <string>Rechercher ...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QListView" name="tagView">
           <property name="enabled">
            <bool>true</bool>
@@ -295,13 +317,30 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="1">
+          <item row="0" column="2">
            <widget class="QLineEdit" name="pathEdit">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QPushButton" name="clearButton">
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_delete.png</normaloff>:/ic_delete.png</iconset>
             </property>
            </widget>
           </item>
@@ -323,23 +362,6 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QPushButton" name="clearButton">
-            <property name="maximumSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="marcopoloresources.qrc">
-              <normaloff>:/ic_delete.png</normaloff>:/ic_delete.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
            <widget class="QLineEdit" name="tagsEdit">
             <property name="enabled">
              <bool>false</bool>
@@ -349,6 +371,20 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
             </property>
             <property name="placeholderText">
              <string>Filtrer par tag ...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="filterIcon">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="marcopoloresources.qrc">
+              <normaloff>:/ic_filter.png</normaloff>:/ic_filter.png</iconset>
             </property>
            </widget>
           </item>
