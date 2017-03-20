@@ -31,7 +31,7 @@ QWidget {
 	background-color : white;
 	border: 0px solide transparent;
 }
-QListWidget#listWidget, QTreeView#treeView {
+QListView#tagView, QTreeView#treeView {
 	background-color : #334ca4ae;
 }
 QMenuBar {
@@ -66,6 +66,8 @@ QPushButton:hover {
 	background-color : #264ca4ae;
 }
 
+QListView::item:hover {background-color : #404ca4ae;}
+QListView::item:selected {background-color : #804ca4ae; color:white}
 QTreeView::item:hover {background-color : #404ca4ae;}
 QTreeView::item:selected {background-color : #804ca4ae; color:white}
 QTableView::item:hover {background-color : #404ca4ae;}
@@ -452,7 +454,6 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
    <addaction name="menuTag"/>
    <addaction name="menuAide"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionFile">
    <property name="text">
     <string>File</string>

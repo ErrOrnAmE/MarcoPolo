@@ -40,8 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->pathEdit->setText(currentPath);
 
-    ui->tagView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->tagView->setSelectionMode(QAbstractItemView::MultiSelection);
     tags->listTags(ui->tagView);
+
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +65,15 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     } else {
         this->noneSelectedMode();
     }
+}
+
+void MainWindow::on_tagView_clicked(const QModelIndex &index) {
+    QModelIndexList templatelist = ui->tagView->selectionModel()->selectedIndexes();
+    QStringList stringlist;
+    foreach (const QModelIndex &index, templatelist){
+        stringlist.append(index.data(Qt::DisplayRole).toString());
+    }
+    ui->tagsEdit->setText(stringlist.join(", "));
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
