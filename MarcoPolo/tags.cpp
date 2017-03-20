@@ -99,7 +99,33 @@ void Tags::addTag(QString name) {
     if (tags.contains(name))
         return;
 
-    QString colors[8] = {"red","blue","green","yellow","purple","cyan","lime","grey"};
+    QString colors[26] = {
+        "#4ca4ac",
+        "#ed87bb",
+        "#ff7373",
+        "#890045",
+        "#c38ed7",
+        "#488957",
+        "#ffd700",
+        "#536283",
+        "#eb2629",
+        "#1da1db",
+        "#24cc8c",
+        "#2988df",
+        "#ff9c20",
+        "#a832c9",
+        "#ee33c0",
+        "#db0939",
+        "#db3939",
+        "#db6939",
+        "#db9939",
+        "#dbc939",
+        "#ffdd8d",
+        "#ddb6ff",
+        "#c2bdfb",
+        "#8f9cff",
+        "#ff6080"
+    };
 
     int number = 8;
     int randomValue = qrand() % number;

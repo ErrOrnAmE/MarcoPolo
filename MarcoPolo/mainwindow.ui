@@ -31,6 +31,9 @@ QWidget {
 	background-color : white;
 	border: 0px solide transparent;
 }
+QWidget#rightPanel {
+	background-color : 1D4ca4ae;
+}
 QListView#tagView, QTreeView#treeView {
 	background-color : #334ca4ae;
 }
@@ -48,7 +51,7 @@ QPushButton:pressed {
 	background-color : #334ca4ae
 }
 QPushButton#openButton {
-	background-color : #204ca4ae;
+	background-color : #334ca4ae;
 }
  QPushButton#addButton:!focus{
 	background-color : #334ca4ae;
@@ -409,7 +412,13 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
       <item>
        <widget class="QWidget" name="rightPanel" native="true">
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">QWidget {
+	background-color : #ebf5f6;
+}
+
+QPushButton#openButton {
+	background-color : #334ca4ae
+}</string>
         </property>
         <layout class="QVBoxLayout" name="rightPanel_2">
          <property name="spacing">
