@@ -20,9 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tagListView->mainWindow = this;
 
-    this->filterMode();
-    this->noneSelectedMode();
-
     currentPath = "";
     drivesModel = new QFileSystemModel(this);
     drivesModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
@@ -56,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Delete),ui->tagView);
     connect(shortcut, SIGNAL(activated()), this, SLOT(deleteTag()));
+
+    this->filterMode();
+    this->noneSelectedMode();
 }
 
 MainWindow::~MainWindow()
@@ -133,6 +133,14 @@ void MainWindow::on_tagView_clicked(const QModelIndex &index) {
     }
     ui->tagsEdit->setText(stringlist.join(", "));
     filterFiles();
+
+    if (stringlist.length() > 0) {
+        ui->filterView->show();
+        ui->tableView->hide();
+    } else {
+        ui->filterView->hide();
+        ui->tableView->show();
+    }
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
@@ -193,8 +201,15 @@ void MainWindow::on_clearButton_clicked() {
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
-    ui->filterView->show();
-    ui->tableView->hide();
+    /*ui->filterView->show();
+    ui->tableView->hide();*/
+    if (ui->tagView->selectionModel()->selection().length()>0) {
+        ui->filterView->show();
+        ui->tableView->hide();
+    } else {
+        ui->filterView->hide();
+        ui->tableView->show();
+    }
     ui->tagView->show();
     ui->treeView->hide();
     ui->parentButton->hide();
