@@ -10,6 +10,10 @@
 #include <QJsonArray>
 #include <QDebug>
 
+/*!
+ * \brief Constructor of MainWindow. Create the UI
+ * \param QWidget parent
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -58,11 +62,17 @@ MainWindow::MainWindow(QWidget *parent) :
     this->noneSelectedMode();
 }
 
+/*!
+ * \brief Destructor of MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+/*!
+ * \brief Filter files to show thoses that have the checked tags
+ */
 void MainWindow::filterFiles() {
     filterModel->clear();
     filterModel->setHorizontalHeaderLabels(QStringList(QString("Name")));
@@ -79,12 +89,18 @@ void MainWindow::filterFiles() {
     ui->filterView->hideColumn(1);
 }
 
+/*!
+ * \brief Associate a tag to a file
+ */
 void MainWindow::addTagsToFile() {
     tags->addTags(ui->tagView,current.absoluteFilePath());
     tags->writeConfig();
     tags->listTags(ui->tagListView, tags->listFileTags(current.absoluteFilePath()));
 }
 
+/*!
+ * \brief Delete a tag
+ */
 void MainWindow::deleteTag() {
     if (ui->tagView->hasFocus()) {
         tags->removeTags(ui->tagView);
@@ -97,12 +113,20 @@ void MainWindow::deleteTag() {
     }
 }
 
+/*!
+ * \brief Go through filetree
+ * \param QModelIndex index
+ */
 void MainWindow::on_treeView_clicked(const QModelIndex &index) {
     currentPath = drivesModel->fileInfo(index).absoluteFilePath();
     ui->pathEdit->setText(currentPath);
     this->noneSelectedMode();
 }
 
+/*!
+ * \brief Select files
+ * \param QModelIndex index
+ */
 void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     QItemSelection selected = ui->tableView->selectionModel()->selection();
     if (selected.length() > 1) {
@@ -114,6 +138,10 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     }
 }
 
+/*!
+ * \brief Select filtered files
+ * \param QModelIndex index
+ */
 void MainWindow::on_filterView_clicked(const QModelIndex &index) {
     QItemSelection selected = ui->filterView->selectionModel()->selection();
     if (selected.length() > 1) {
@@ -125,6 +153,10 @@ void MainWindow::on_filterView_clicked(const QModelIndex &index) {
     }
 }
 
+/*!
+ * \brief Select tags
+ * \param QModelIndex index
+ */
 void MainWindow::on_tagView_clicked(const QModelIndex &index) {
     QModelIndexList templatelist = ui->tagView->selectionModel()->selectedIndexes();
     QStringList stringlist;
@@ -143,6 +175,10 @@ void MainWindow::on_tagView_clicked(const QModelIndex &index) {
     }
 }
 
+/*!
+ * \brief Open directory
+ * \param QModelIndex index
+ */
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
     if (filesModel->fileInfo(index).isDir()) {
         currentPath = filesModel->fileInfo(index).absoluteFilePath();
@@ -156,24 +192,41 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
     }
 }
 
+/*!
+ * \brief Set filter mode
+ */
 void MainWindow::on_filterButton_clicked() {
     filterMode();
 }
 
+/*!
+ * \brief Set tree mode
+ */
 void MainWindow::on_treeButton_clicked() {
     treeMode();
 }
 
+/*!
+ * \brief Change root of fileSystemModel
+ * \param text
+ */
 void MainWindow::on_pathEdit_textChanged(const QString &text) {
     currentPath = text;
     ui->tableView->setRootIndex(filesModel->setRootPath(currentPath));
     ui->tableView->clearSelection();
 }
 
+/*!
+ * \brief Change list of filtered tags
+ * \param text
+ */
 void MainWindow::on_searchEdit_textChanged(const QString &text) {
      tags->listTags(ui->tagView, text);
 }
 
+/*!
+ * \brief Go back in files hierarchy
+ */
 void MainWindow::on_parentButton_clicked() {
     QModelIndex parent = filesModel->index(currentPath).parent();
     if (parent != QModelIndex()) {
@@ -185,6 +238,9 @@ void MainWindow::on_parentButton_clicked() {
     this->noneSelectedMode();
 }
 
+/*!
+ * \brief Open a file or a folder
+ */
 void MainWindow::on_openButton_clicked() {
     QModelIndex file;
     if (ui->tableView->isHidden()) {
@@ -196,12 +252,18 @@ void MainWindow::on_openButton_clicked() {
     QDesktopServices::openUrl(QUrl::fromUserInput(info.absoluteFilePath()));
 }
 
+/*!
+ * \brief Create a new tag
+ */
 void MainWindow::on_newTag_returnPressed() {
     tags->addTag(ui->newTag->text());
     ui->newTag->setText("");
     tags->listTags(ui->tagView);
 }
 
+/*!
+ * \brief Clear tag filtering
+ */
 void MainWindow::on_clearButton_clicked() {
     ui->tagView->clearSelection();
     ui->tagsEdit->setText("");
@@ -209,6 +271,9 @@ void MainWindow::on_clearButton_clicked() {
     ui->tableView->show();
 }
 
+/*!
+ * \brief Go into filter mode
+ */
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
@@ -233,6 +298,9 @@ void MainWindow::filterMode() {
     noneSelectedMode();
 }
 
+/*!
+ * \brief Go into tree mode
+ */
 void MainWindow::treeMode() {
     ui->filterButton->setDefault(false);
     ui->treeButton->setDefault(true);
@@ -250,6 +318,9 @@ void MainWindow::treeMode() {
     noneSelectedMode();
 }
 
+/*!
+ * \brief Go into none selected mode
+ */
 void MainWindow::noneSelectedMode() {
     ui->noneSelectedInformation->show();
     ui->oneSelectedInformation->hide();
@@ -258,6 +329,10 @@ void MainWindow::noneSelectedMode() {
     ui->openButton->hide();
 }
 
+/*!
+ * \brief Go into one selected mode
+ * \param index
+ */
 void MainWindow::oneSelectedMode(const QModelIndex &index) {
     QFileInfo info = filesModel->fileInfo(index);
     if (filesModel->fileInfo(index.parent()).absolutePath() == "") {
@@ -276,6 +351,10 @@ void MainWindow::oneSelectedMode(const QModelIndex &index) {
     current = info;
 }
 
+/*!
+ * \brief Go into multi selected mode
+ * \param size
+ */
 void MainWindow::multiSelectedMode(int size) {
     ui->noneSelectedInformation->hide();
     ui->oneSelectedInformation->hide();

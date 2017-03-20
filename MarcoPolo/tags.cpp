@@ -18,6 +18,9 @@ Tags::Tags()
 
 }
 
+/*!
+ * \brief Read the json file with the tags and associations
+ */
 void Tags::readConfig() {
    QFile loadFile(QStringLiteral("tags.json"));
 
@@ -36,6 +39,9 @@ void Tags::readConfig() {
    qInfo() << tags.keys();
 }
 
+/*!
+ * \brief Write the json file with the tags and associations
+ */
 void Tags::writeConfig() {
     QFile loadFile(QStringLiteral("tags.json"));
 
@@ -51,6 +57,10 @@ void Tags::writeConfig() {
     loadFile.close();
 }
 
+/*!
+ * \brief List tags into given QListView
+ * \param QListView listView
+ */
 void Tags::listTags(QListView *listView) {
     QStandardItemModel *model = new QStandardItemModel();
     for (auto item : tags.keys()) {
@@ -62,6 +72,11 @@ void Tags::listTags(QListView *listView) {
     listView->setModel(model);
 }
 
+/*!
+ * \brief List tags corresponding to given search into given QListView
+ * \param QListView listView
+ * \param QString search
+ */
 void Tags::listTags(QListView *listView, QString search) {
     QStandardItemModel *model = new QStandardItemModel();
     for (auto item : tags.keys()) {
@@ -75,6 +90,11 @@ void Tags::listTags(QListView *listView, QString search) {
     listView->setModel(model);
 }
 
+/*!
+ * \brief List tags corresponding to givent tags into given QListView
+ * \param QListView listView
+ * \param QString linkedTags
+ */
 void Tags::listTags(QListView *listView, QJsonArray linkedTags) {
     QStandardItemModel *model = new QStandardItemModel();
     for (auto item : linkedTags) {
@@ -87,19 +107,11 @@ void Tags::listTags(QListView *listView, QJsonArray linkedTags) {
     listView->setModel(model);
 }
 
-void Tags::listTags(QListView *to, QListView *from) {
-    QStandardItemModel *model = new QStandardItemModel();
-    for (auto e : from->selectionModel()->selection()) {
-        QJsonObject item = tags.value(e.topLeft().data().toString()).toObject();
-        QStandardItem *line = new QStandardItem();
-        QString name = e.topLeft().data().toString();
-        line->setText(name);
-        line->setData(drawCircle(item.value(QString("color")).toString()),Qt::DecorationRole);
-        model->appendRow(line);
-    }
-    to->setModel(model);
-}
-
+/*!
+ * \brief Draw a circle icon with given color
+ * \param QString color
+ * \return QPixmap
+ */
 QPixmap Tags::drawCircle(QString color) {
     QPixmap *pix = new QPixmap(15,15);
     QPainter painter(pix);
@@ -110,6 +122,10 @@ QPixmap Tags::drawCircle(QString color) {
     return *pix;
 }
 
+/*!
+ * \brief Create a tag with given name
+ * \param QString name
+ */
 void Tags::addTag(QString name) {
 
     if (tags.contains(name))
@@ -160,6 +176,11 @@ void Tags::addTag(QString name) {
     writeConfig();
 }
 
+/*!
+ * \brief Associate tags to a file
+ * \param QListView listView
+ * \param QString path
+ */
 void Tags::addTags(QListView *listView, QString path) {
     for(auto e : listView->selectionModel()->selection()) {
         qInfo() << e.topLeft().data().toString();
@@ -182,16 +203,29 @@ void Tags::addTags(QListView *listView, QString path) {
     }
 }
 
+/*!
+ * \brief Delete a tag
+ * \param QString name
+ */
 void Tags::removeTag(QString name) {
     tags.remove(name);
 }
 
+/*!
+ * \brief Delete tags
+ * \param QListView listView
+ */
 void Tags::removeTags(QListView *listView) {
     for(auto e : listView->selectionModel()->selection()) {
         removeTag(e.topLeft().data().toString());
     }
 }
 
+/*!
+ * \brief Dissociate tags from a file
+ * \param QListView listView
+ * \param QString path
+ */
 void Tags::removeTags(QListView *listView, QString path) {
     for (auto e : listView->selectionModel()->selection()) {
         QJsonObject tag = tags.value(e.topLeft().data().toString()).toObject();
@@ -206,6 +240,11 @@ void Tags::removeTags(QListView *listView, QString path) {
     }
 }
 
+/*!
+ * \brief List tags associated to a file
+ * \param QString path
+ * \return QJsonArray
+ */
 QJsonArray Tags::listFileTags(QString path) {
     QJsonArray linkedTags;
     for (auto e : tags.keys()) {
@@ -218,6 +257,11 @@ QJsonArray Tags::listFileTags(QString path) {
     return linkedTags;
 }
 
+/*!
+ * \brief List files associated with filtered tags
+ * \param QListView listView
+ * \return QStringList
+ */
 QStringList Tags::listFiles(QListView *listView) {
     QStringList files;
     for (auto e : listView->selectionModel()->selection()) {
