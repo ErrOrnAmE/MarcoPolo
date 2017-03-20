@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileSystemModel>
+#include <QStandardItemModel>
 #include "tags.h"
 
 namespace Ui {
@@ -16,10 +17,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Ui::MainWindow *ui;
+    void addTagsToFile();
+    void filterFiles();
 
 private slots:
     void on_treeView_clicked(const QModelIndex &index);
     void on_tableView_clicked(const QModelIndex &index);
+    void on_filterView_clicked(const QModelIndex &index);
     void on_tableView_doubleClicked(const QModelIndex &index);
     void on_filterButton_clicked();
     void on_treeButton_clicked();
@@ -29,13 +34,14 @@ private slots:
     void on_tagView_clicked(const QModelIndex &index);
     void on_newTag_returnPressed();
     void on_clearButton_clicked();
-    void deleteItem();
+    void deleteTag();
 
 private:
     Tags *tags;
-    Ui::MainWindow *ui;
+    QFileInfo current;
     QFileSystemModel *drivesModel;
     QFileSystemModel *filesModel;
+    QStandardItemModel *filterModel;
     QString currentPath;
     void filterMode();
     void treeMode();

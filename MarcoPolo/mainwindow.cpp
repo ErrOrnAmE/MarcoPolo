@@ -7,6 +7,8 @@
 #include <QStandardItem>
 #include <QPainter>
 #include <QShortcut>
+#include <QJsonArray>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     tags = new Tags();
     tags->readConfig();
     ui->setupUi(this);
+
+    ui->tagListView->mainWindow = this;
 
     this->filterMode();
     this->noneSelectedMode();
@@ -40,14 +44,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
     ui->tableView->setAcceptDrops(true);
 
+    filterModel = new QStandardItemModel(this);
+    filterModel->setHorizontalHeaderLabels(QStringList(QString("name")));
+    ui->filterView->setModel(filterModel);
+    ui->filterView->hideColumn(1);
+
     ui->pathEdit->setText(currentPath);
 
-    ui->tagView->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->tagView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     tags->listTags(ui->tagView);
 
     QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Delete),ui->tagView);
-    connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
-
+    connect(shortcut, SIGNAL(activated()), this, SLOT(deleteTag()));
 }
 
 MainWindow::~MainWindow()
@@ -55,10 +63,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::deleteItem() {
-    tags->removeTags(ui->tagView);
+void MainWindow::filterFiles() {
+    filterModel->clear();
+    filterModel->setHorizontalHeaderLabels(QStringList(QString("Name")));
+
+    for (auto e : tags->listFiles(ui->tagView)) {
+        qInfo() << filesModel->fileInfo(filesModel->index(e)).fileName();
+        QList<QStandardItem*> row;
+        QStandardItem *item = new QStandardItem(filesModel->fileInfo(filesModel->index(e)).fileName());
+        item->setIcon(filesModel->fileIcon(filesModel->index(e)).pixmap(23));
+        row.append(item);
+        row.append(new QStandardItem(filesModel->fileInfo(filesModel->index(e)).absoluteFilePath()));
+        filterModel->appendRow(row);
+    }
+    ui->filterView->hideColumn(1);
+}
+
+void MainWindow::addTagsToFile() {
+    tags->addTags(ui->tagView,current.absoluteFilePath());
     tags->writeConfig();
-    tags->listTags(ui->tagView);
+    tags->listTags(ui->tagListView, tags->listFileTags(current.absoluteFilePath()));
+}
+
+void MainWindow::deleteTag() {
+    if (ui->tagView->hasFocus()) {
+        tags->removeTags(ui->tagView);
+        tags->writeConfig();
+        tags->listTags(ui->tagView);
+    } else {
+        tags->removeTags(ui->tagListView, current.absoluteFilePath());
+        tags->writeConfig();
+        tags->listTags(ui->tagListView,tags->listFileTags(current.absoluteFilePath()));
+    }
 }
 
 void MainWindow::on_treeView_clicked(const QModelIndex &index) {
@@ -78,6 +114,17 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index) {
     }
 }
 
+void MainWindow::on_filterView_clicked(const QModelIndex &index) {
+    QItemSelection selected = ui->filterView->selectionModel()->selection();
+    if (selected.length() > 1) {
+        this->multiSelectedMode();
+    } else if (selected.length() == 1) {
+        this->oneSelectedMode(filesModel->index(index.sibling(index.row(),index.column()+1).data().toString()));
+    } else {
+        this->noneSelectedMode();
+    }
+}
+
 void MainWindow::on_tagView_clicked(const QModelIndex &index) {
     QModelIndexList templatelist = ui->tagView->selectionModel()->selectedIndexes();
     QStringList stringlist;
@@ -85,6 +132,7 @@ void MainWindow::on_tagView_clicked(const QModelIndex &index) {
         stringlist.append(index.data(Qt::DisplayRole).toString());
     }
     ui->tagsEdit->setText(stringlist.join(", "));
+    filterFiles();
 }
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index) {
@@ -145,6 +193,8 @@ void MainWindow::on_clearButton_clicked() {
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
+    ui->filterView->show();
+    ui->tableView->hide();
     ui->tagView->show();
     ui->treeView->hide();
     ui->parentButton->hide();
@@ -152,11 +202,14 @@ void MainWindow::filterMode() {
     ui->pathEdit->hide();
     ui->tagsEdit->show();
     ui->newTag->show();
+    noneSelectedMode();
 }
 
 void MainWindow::treeMode() {
     ui->filterButton->setDefault(false);
     ui->treeButton->setDefault(true);
+    ui->filterView->hide();
+    ui->tableView->show();
     ui->tagView->hide();
     ui->treeView->show();
     ui->parentButton->show();
@@ -164,6 +217,7 @@ void MainWindow::treeMode() {
     ui->pathEdit->show();
     ui->tagsEdit->hide();
     ui->newTag->hide();
+    noneSelectedMode();
 }
 
 void MainWindow::noneSelectedMode() {
@@ -187,6 +241,9 @@ void MainWindow::oneSelectedMode(const QModelIndex &index) {
     ui->multiSelectedInformation->hide();
     ui->tagListView->show();
     ui->openButton->show();
+
+    tags->listTags(ui->tagListView, tags->listFileTags(info.absoluteFilePath()));
+    current = info;
 }
 
 void MainWindow::multiSelectedMode() {

@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    tags.cpp
+    tags.cpp \
+    tagview.cpp
 
 HEADERS  += mainwindow.h \
-    tags.h
+    tags.h \
+    tagview.h
 
 FORMS    += mainwindow.ui
 

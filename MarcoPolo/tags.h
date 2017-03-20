@@ -3,6 +3,7 @@
 
 #include <QJsonObject>
 #include <QListView>
+#include <QStringList>
 
 class Tags
 {
@@ -11,11 +12,17 @@ public:
     void readConfig();
     void writeConfig();
     void listTags(QListView *listView);
+    void listTags(QListView *listView, QJsonArray linkedTags);
     QJsonObject tags;
 
     void addTag(QString name);
+    void addTags(QListView *listView, QString path);
     void removeTag(QString name);
     void removeTags(QListView *listView);
+    void removeTags(QListView *listView, QString path);
+
+    QJsonArray listFileTags(QString path);
+    QStringList listFiles(QListView *listView);
 
 private:
     QPixmap drawCircle(QString color);

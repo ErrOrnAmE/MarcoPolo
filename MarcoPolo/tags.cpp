@@ -59,6 +59,18 @@ void Tags::listTags(QListView *listView) {
     listView->setModel(model);
 }
 
+void Tags::listTags(QListView *listView, QJsonArray linkedTags) {
+    QStandardItemModel *model = new QStandardItemModel();
+    for (auto item : linkedTags) {
+        QStandardItem *line = new QStandardItem();
+        QString name = item.toObject().keys().at(0);
+        line->setText(name);
+        line->setData(drawCircle(item.toObject().value(name).toObject().value(QString("color")).toString()),Qt::DecorationRole);
+        model->appendRow(line);
+    }
+    listView->setModel(model);
+}
+
 QPixmap Tags::drawCircle(QString color) {
     QPixmap *pix = new QPixmap(15,15);
     QPainter painter(pix);
@@ -70,6 +82,9 @@ QPixmap Tags::drawCircle(QString color) {
 }
 
 void Tags::addTag(QString name) {
+
+    if (tags.contains(name))
+        return;
 
     QString colors[8] = {"red","blue","green","yellow","purple","cyan","lime","grey"};
 
@@ -89,6 +104,28 @@ void Tags::addTag(QString name) {
     writeConfig();
 }
 
+void Tags::addTags(QListView *listView, QString path) {
+    for(auto e : listView->selectionModel()->selection()) {
+        qInfo() << e.topLeft().data().toString();
+        QJsonObject tag = tags.value(e.topLeft().data().toString()).toObject();
+
+        qInfo() << tag;
+
+        QJsonArray files = tag.value("files").toArray();
+
+        qInfo() << files;
+
+        if(!files.contains(QJsonValue(path)))
+            files.append(path);
+
+        qInfo() << files;
+
+        tag.insert("files",files);
+
+        tags.insert(e.topLeft().data().toString(),tag);
+    }
+}
+
 void Tags::removeTag(QString name) {
     tags.remove(name);
 }
@@ -97,4 +134,42 @@ void Tags::removeTags(QListView *listView) {
     for(auto e : listView->selectionModel()->selection()) {
         removeTag(e.topLeft().data().toString());
     }
+}
+
+void Tags::removeTags(QListView *listView, QString path) {
+    for (auto e : listView->selectionModel()->selection()) {
+        QJsonObject tag = tags.value(e.topLeft().data().toString()).toObject();
+
+        QJsonArray files = tag.value("files").toArray();
+
+        files.removeAt(files.toVariantList().indexOf(path));
+
+        tag.insert("files",files);
+
+        tags.insert(e.topLeft().data().toString(),tag);
+    }
+}
+
+QJsonArray Tags::listFileTags(QString path) {
+    QJsonArray linkedTags;
+    for (auto e : tags.keys()) {
+        if (tags.value(e).toObject().value(QString("files")).toArray().contains(path)) {
+            QJsonObject i;
+            i.insert(e,tags.value(e));
+            linkedTags.append(i);
+        }
+    }
+    return linkedTags;
+}
+
+QStringList Tags::listFiles(QListView *listView) {
+    QStringList files;
+    for (auto e : listView->selectionModel()->selection()) {
+        QJsonArray tagFiles = tags.value(e.topLeft().data().toString()).toObject().value("files").toArray();
+        for (auto f : tagFiles) {
+            if (!files.contains(f.toString()))
+                files.append(f.toString());
+        }
+    }
+    return files;
 }
