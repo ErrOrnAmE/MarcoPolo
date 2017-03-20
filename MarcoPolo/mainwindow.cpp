@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->pathEdit->setText(currentPath);
 
-    ui->tagView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->tagView->setSelectionMode(QAbstractItemView::MultiSelection);
     tags->listTags(ui->tagView);
 
     QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Delete),ui->tagView);
@@ -212,6 +212,7 @@ void MainWindow::filterMode() {
     }
     ui->tagView->show();
     ui->treeView->hide();
+    ui->addButton->show();
     ui->parentButton->hide();
     ui->clearButton->show();
     ui->pathEdit->hide();
@@ -226,6 +227,7 @@ void MainWindow::treeMode() {
     ui->filterView->hide();
     ui->tableView->show();
     ui->tagView->hide();
+    ui->addButton->hide();
     ui->treeView->show();
     ui->parentButton->show();
     ui->clearButton->hide();
