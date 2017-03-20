@@ -106,8 +106,9 @@ void Tags::addTag(QString name) {
 
     QJsonObject o;
 
-    QJsonValue color(QString(colors[randomValue]));
-    o.insert(QString("color"),color);
+    //qInfo() << QJsonValue(QString(colors[randomValue]));
+    //QJsonValue color(QString(colors[randomValue]));
+    o.insert(QString("color"),QJsonValue(QString(colors[randomValue])));
 
     QJsonArray files;
     o.insert(QString("files"),files);
