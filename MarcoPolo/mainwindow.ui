@@ -147,7 +147,7 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="leftPanel" stretch="0,1,1">
+       <layout class="QVBoxLayout" name="leftPanel" stretch="0,0,1,1">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -191,6 +191,9 @@ QTableView::item:selected {background-color : #804ca4ae; color:white}
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="newTag"/>
         </item>
         <item>
          <widget class="QListView" name="tagView">

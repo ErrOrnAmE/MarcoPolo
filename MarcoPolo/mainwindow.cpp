@@ -120,6 +120,10 @@ void MainWindow::on_openButton_clicked() {
     QDesktopServices::openUrl(QUrl::fromUserInput(info.absoluteFilePath()));
 }
 
+void MainWindow::on_newTag_returnPressed() {
+    qInfo("Yup");
+}
+
 void MainWindow::filterMode() {
     ui->filterButton->setDefault(true);
     ui->treeButton->setDefault(false);
@@ -129,6 +133,7 @@ void MainWindow::filterMode() {
     ui->clearButton->show();
     ui->pathEdit->hide();
     ui->tagsEdit->show();
+    ui->newTag->show();
 }
 
 void MainWindow::treeMode() {
@@ -140,6 +145,7 @@ void MainWindow::treeMode() {
     ui->clearButton->hide();
     ui->pathEdit->show();
     ui->tagsEdit->hide();
+    ui->newTag->hide();
 }
 
 void MainWindow::noneSelectedMode() {

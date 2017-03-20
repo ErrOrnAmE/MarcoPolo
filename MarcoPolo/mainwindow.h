@@ -27,6 +27,7 @@ private slots:
     void on_parentButton_clicked();
     void on_openButton_clicked();
     void on_tagView_clicked(const QModelIndex &index);
+    void on_newTag_returnPressed();
 
 private:
     Tags *tags;

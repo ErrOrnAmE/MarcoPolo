@@ -32,10 +32,10 @@ void Tags::readConfig() {
 
 void Tags::listTags(QListView *listView) {
     QStandardItemModel *model = new QStandardItemModel();
-    foreach (QString item, tags.toVariantMap()) {
+    for (auto item : tags.keys()) {
         QStandardItem *line = new QStandardItem();
         line->setText(item);
-        line->setData(drawCircle(QString("green")),Qt::DecorationRole);
+        line->setData(drawCircle(tags.value(item).toObject().value(QString("color")).toString()),Qt::DecorationRole);
         model->appendRow(line);
     }
     listView->setModel(model);
