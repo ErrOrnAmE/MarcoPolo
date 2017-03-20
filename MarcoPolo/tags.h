@@ -9,8 +9,13 @@ class Tags
 public:
     Tags();
     void readConfig();
+    void writeConfig();
     void listTags(QListView *listView);
     QJsonObject tags;
+
+    void addTag(QString name);
+    void removeTag(QString name);
+    void removeTags(QListView *listView);
 
 private:
     QPixmap drawCircle(QString color);

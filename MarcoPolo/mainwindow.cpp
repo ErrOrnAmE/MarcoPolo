@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QPainter>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -37,17 +38,27 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->hideColumn(2);
     ui->tableView->hideColumn(3);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
+    ui->tableView->setAcceptDrops(true);
 
     ui->pathEdit->setText(currentPath);
 
     ui->tagView->setSelectionMode(QAbstractItemView::MultiSelection);
     tags->listTags(ui->tagView);
 
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Delete),ui->tagView);
+    connect(shortcut, SIGNAL(activated()), this, SLOT(deleteItem()));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::deleteItem() {
+    tags->removeTags(ui->tagView);
+    tags->writeConfig();
+    tags->listTags(ui->tagView);
 }
 
 void MainWindow::on_treeView_clicked(const QModelIndex &index) {
@@ -121,7 +132,14 @@ void MainWindow::on_openButton_clicked() {
 }
 
 void MainWindow::on_newTag_returnPressed() {
-    qInfo("Yup");
+    tags->addTag(ui->newTag->text());
+    ui->newTag->setText("");
+    tags->listTags(ui->tagView);
+}
+
+void MainWindow::on_clearButton_clicked() {
+    ui->tagView->clearSelection();
+    ui->tagsEdit->setText("");
 }
 
 void MainWindow::filterMode() {
