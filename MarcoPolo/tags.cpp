@@ -103,9 +103,9 @@ void Tags::listTags(QListView *to, QListView *from) {
 QPixmap Tags::drawCircle(QString color) {
     QPixmap *pix = new QPixmap(15,15);
     QPainter painter(pix);
-    painter.setPen(QColor(255,255,255));
+    painter.setPen(QColor(77,164,174));
     painter.setBrush(QBrush(QColor(color)));
-    painter.fillRect(0,0,15,15,QColor(255,255,255));
+    painter.fillRect(0,0,15,15,QColor(219,237,239));
     painter.drawEllipse(1,1,13,13);
     return *pix;
 }
